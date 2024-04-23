@@ -1,0 +1,29 @@
+#include <stdio.h>
+
+// Define the derivative function y' = f(t, y)
+double derivative(double t, double y) {
+    return y - t * t + 1;
+}
+
+int main() {
+    double t0 = 0;     // Initial time
+    double y0 = 0.5;   // Initial value of y
+    double t_max = 2;  // Desired final time
+    double h = 0.1;    // Step size
+
+    double t = t0;
+    double y = y0;
+
+    while (t < t_max) {
+        // Calculate the next value of y using Euler's method
+        y = y + h * derivative(t, y);
+
+        // Increment time by step size
+        t += h;
+    }
+
+    // Output the final value of y
+    printf("Final value of y at t = %.2f: %.4f\n", t, y);
+
+    return 0;
+}
