@@ -1,8 +1,14 @@
 #include <stdio.h>
+#include <math.h>
 
 // Define the derivative function y' = f(t, y)
 double derivative(double t, double y) {
     return y - t * t + 1;
+}
+
+// Define the exact solution function
+double exact_solution(double t) {
+    return pow(t + 1, 2) - 0.5 * exp(t);
 }
 
 int main() {
@@ -14,16 +20,28 @@ int main() {
     double t = t0;
     double y = y0;
 
+    printf("Step\tt\tApproximate y\tExact y\t\tError\t\tError Bound\n");
+    printf("------------------------------------------------------------\n");
+
     while (t < t_max) {
         // Calculate the next value of y using Euler's method
         y = y + h * derivative(t, y);
 
+        // Calculate the exact value
+        double exact_y = exact_solution(t);
+
+        // Calculate the error
+        double error = fabs(exact_y - y);
+
+        // Calculate the error bound
+        double error_bound = 0.5 * h * (1 + t + y);  // Example error bound
+
+        // Output the results for each step
+        printf("%d\t%.2f\t%.4f\t\t%.4f\t\t%.6f\t%.6f\n", (int)((t - t0) / h), t, y, exact_y, error, error_bound);
+
         // Increment time by step size
         t += h;
     }
-
-    // Output the final value of y
-    printf("Final value of y at t = %.2f: %.4f\n", t, y);
 
     return 0;
 }
